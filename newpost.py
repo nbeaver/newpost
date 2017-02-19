@@ -29,15 +29,22 @@ def open_with_default_text_editor(filepath):
 def writable_directory(path):
     if not os.path.isdir(path):
         raise argparse.ArgumentTypeError('not an existing directory: {}'.format(path))
+    # TODO: create a tempfile to check if it is actually possible to write to this directory.
     if not os.access(path, os.W_OK):
         raise argparse.ArgumentTypeError('not a writable directory: {}'.format(path))
+    # Normally we would return the converted value here,
+    # but this is already a path, so there is no need.
     return path
 
 if __name__ == '__main__':
 
     if len(sys.argv) > 1:
         parser = argparse.ArgumentParser(description='Generates a new post.')
-        parser.add_argument('post_dir', type=writable_directory, help='Path to directory to store new post.')
+        parser.add_argument(
+            'post_dir',
+            type=writable_directory,
+            help='Path to directory to store new post.'
+        )
         args = parser.parse_args()
         post_dir = args.post_dir
     else:
