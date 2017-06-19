@@ -38,18 +38,15 @@ def writable_directory(path):
 
 if __name__ == '__main__':
 
-    if len(sys.argv) > 1:
-        parser = argparse.ArgumentParser(description='Generates a new post.')
-        parser.add_argument(
-            'post_dir',
-            type=writable_directory,
-            help='Path to directory to store new post.'
-        )
-        args = parser.parse_args()
-        post_dir = args.post_dir
-    else:
-        post_dir = os.getcwd()
-
-    post_filepath = create_new_post(post_dir)
+    parser = argparse.ArgumentParser(description='Generates a new post.')
+    parser.add_argument(
+        'post_dir',
+        nargs='?',
+        type=writable_directory,
+        default=os.getcwd(),
+        help='Path to directory to store new post.',
+    )
+    args = parser.parse_args()
+    post_filepath = create_new_post(args.post_dir)
 
     open_with_default_text_editor(post_filepath)
