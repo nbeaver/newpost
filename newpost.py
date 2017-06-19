@@ -13,6 +13,10 @@ def create_new_post(parent_dir):
     new_uuid = uuid.uuid4()
     filename = '{}.rst'.format(new_uuid)
     filepath = os.path.join(parent_dir, filename)
+    if os.path.exists(filepath):
+        # This shouldn't happen,
+        # but don't overwrite the file if it does.
+        raise FileExistsError('{} already exists.'.format(filepath))
     with open(filepath, 'w') as f:
         f.write(":date: {}\n".format(date_iso))
         f.write(":slug: {}\n".format(new_uuid))
