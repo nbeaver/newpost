@@ -19,7 +19,7 @@ def create_new_post(parent_dir):
         raise FileExistsError('{} already exists.'.format(filepath))
     with open(filepath, 'w') as f:
         f.write(":date: {}\n".format(date_iso))
-        f.write(":slug: {}\n".format(new_uuid))
+        f.write(":uuid: {}\n".format(new_uuid))
     return filepath
 
 def open_with_default_text_editor(filepath):
