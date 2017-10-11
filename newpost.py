@@ -5,7 +5,6 @@ import datetime
 import uuid
 import argparse
 import subprocess
-import subprocess
 
 def create_new_post(parent_dir):
     now = datetime.datetime.now()
