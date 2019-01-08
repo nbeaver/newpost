@@ -2,7 +2,6 @@
 import os
 import sys
 import datetime
-import time
 import uuid
 import argparse
 import subprocess
@@ -10,7 +9,7 @@ import subprocess
 def create_new_post(parent_dir):
     now = datetime.datetime.now()
     date_iso = now.date().isoformat()
-    timezone_name = time.tzname[time.localtime().tm_isdst]
+    timezone_name = now.astimezone().tzname()
     new_uuid = uuid.uuid4()
     filename = '{}.rst'.format(new_uuid)
     filepath = os.path.join(parent_dir, filename)
