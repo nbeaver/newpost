@@ -5,6 +5,8 @@ import datetime
 import uuid
 import argparse
 import subprocess
+import logging
+logger = logging.getLogger(__name__)
 
 def create_new_post(parent_dir):
     now = datetime.datetime.now()
@@ -59,7 +61,27 @@ def main():
         default=os.getcwd(),
         help='Path to directory to store new post.',
     )
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        help='More verbose logging',
+        dest="loglevel",
+        default=logging.WARNING,
+        action="store_const",
+        const=logging.INFO,
+    )
+    parser.add_argument(
+        '-d',
+        '--debug',
+        help='Enable debugging logs',
+        action="store_const",
+        dest="loglevel",
+        const=logging.DEBUG,
+    )
     args = parser.parse_args()
+    logging.basicConfig(level=args.loglevel)
+    logger.setLevel(args.loglevel)
+
     post_filepath = create_new_post(args.post_dir)
 
     open_with_default_text_editor(post_filepath)
