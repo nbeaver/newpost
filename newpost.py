@@ -26,6 +26,23 @@ def create_new_post(parent_dir):
         f.write(":uuid: {}\n".format(new_uuid))
     return filepath
 
+def open_with_text_editor(filepath, text_editor=None, editor_args=None):
+    if text_editor is None:
+        logging.debug("text_editor not specified, using OS default")
+        open_with_default_text_editor(filepath)
+    elif editor_args is None:
+        logging.info("text_editor = '{}'".format(text_editor))
+        logging.info("text_editor = '{}'".format(text_editor))
+        call_args = [text_editor, filepath]
+        logging.info("call_args = '{}'".format(call_args))
+        subprocess.call(call_args)
+    else:
+        logging.info("text_editor = '{}'".format(text_editor))
+        logging.info("editor_args = '{}'".format(editor_args))
+        call_args = [text_editor] + editor_args + [filepath]
+        logging.info("call_args = '{}'".format(call_args))
+        subprocess.call(call_args)
+
 def open_with_default_text_editor(filepath):
     logging.debug("os.name = '{}'".format(os.name))
     if os.name == 'nt':
@@ -67,6 +84,12 @@ def main():
         help='Path to directory to store new post.',
     )
     parser.add_argument(
+        '-e',
+        '--editor',
+        help='Editor to use',
+        default=None,
+    )
+    parser.add_argument(
         '-v',
         '--verbose',
         help='More verbose logging',
@@ -91,7 +114,7 @@ def main():
 
     post_filepath = create_new_post(args.post_dir)
 
-    open_with_default_text_editor(post_filepath)
+    open_with_text_editor(post_filepath, text_editor=args.editor)
 
 if __name__ == '__main__':
     main()
