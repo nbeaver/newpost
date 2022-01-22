@@ -41,8 +41,8 @@ def writable_directory(path):
     # but this is already a path, so there is no need.
     return path
 
-if __name__ == '__main__':
 
+def main():
     parser = argparse.ArgumentParser(description='Generates a new post.')
     parser.add_argument(
         'post_dir',
@@ -55,3 +55,6 @@ if __name__ == '__main__':
     post_filepath = create_new_post(args.post_dir)
 
     open_with_default_text_editor(post_filepath)
+
+if __name__ == '__main__':
+    main()
