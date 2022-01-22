@@ -17,7 +17,7 @@ def create_new_post(parent_dir):
         # This shouldn't happen,
         # but don't overwrite the file if it does.
         raise FileExistsError('{} already exists.'.format(filepath))
-    with open(filepath, 'w') as f:
+    with open(filepath, 'w', newline='\n') as f:
         f.write(":date: {}\n".format(date_iso))
         f.write(":timezone: {}\n".format(timezone_name))
         f.write(":uuid: {}\n".format(new_uuid))
