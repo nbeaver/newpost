@@ -25,8 +25,16 @@ def create_new_post(parent_dir):
 
 def open_with_default_text_editor(filepath):
     if os.name == 'nt':
-        os.startfile(filepath, 'open')
-        sys.exit(0)
+        try:
+            os.startfile(filepath, 'open')
+        except OSError as e:
+            if e.errno == 22:
+                # Handle WinError 1155:
+                # "No application is associated with the specified file
+                # for this operation"
+                subprocess.call(['notepad', filepath])
+            else:
+                raise
     elif os.name == 'posix':
         default_editor = os.getenv('EDITOR', default='vi')
         subprocess.call([default_editor, filepath])
