@@ -1,0 +1,3 @@
+- [x] Handle OSError: [WinError 1155] No application is associated with the specified file for this operation: ... filename.rst
+- [ ] add `--verbose` / `--debug` flag
+- [ ] add `--editor` flag to override default editor
