@@ -15,6 +15,7 @@ def create_new_post(parent_dir):
     new_uuid = uuid.uuid4()
     filename = '{}.rst'.format(new_uuid)
     filepath = os.path.join(parent_dir, filename)
+    logging.info("filepath = '{}'".format(filepath))
     if os.path.exists(filepath):
         # This shouldn't happen,
         # but don't overwrite the file if it does.
@@ -26,19 +27,23 @@ def create_new_post(parent_dir):
     return filepath
 
 def open_with_default_text_editor(filepath):
+    logging.debug("os.name = '{}'".format(os.name))
     if os.name == 'nt':
         try:
             os.startfile(filepath, 'open')
         except OSError as e:
+            logging.warning("e.errno = {}".format(e.errno))
             if e.errno == 22:
                 # Handle WinError 1155:
                 # "No application is associated with the specified file
                 # for this operation"
+                logging.info("os.startfile failed, using notepad instead")
                 subprocess.call(['notepad', filepath])
             else:
                 raise
     elif os.name == 'posix':
         default_editor = os.getenv('EDITOR', default='vi')
+        logging.info("default_editor = '{}'".format(default_editor))
         subprocess.call([default_editor, filepath])
 
 def writable_directory(path):
@@ -81,6 +86,8 @@ def main():
     args = parser.parse_args()
     logging.basicConfig(level=args.loglevel)
     logger.setLevel(args.loglevel)
+
+    logging.info("args.post_dir = '{}'".format(args.post_dir))
 
     post_filepath = create_new_post(args.post_dir)
 
