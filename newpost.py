@@ -35,7 +35,11 @@ def open_with_text_editor(filepath, text_editor=None, editor_args=None):
         logging.info("text_editor = '{}'".format(text_editor))
         call_args = [text_editor, filepath]
         logging.info("call_args = '{}'".format(call_args))
-        subprocess.call(call_args)
+        try:
+            subprocess.call(call_args)
+        except FileNotFoundError:
+            print("call_args = {}".format(call_args), file=sys.stderr)
+            raise
     else:
         logging.info("text_editor = '{}'".format(text_editor))
         logging.info("editor_args = '{}'".format(editor_args))
